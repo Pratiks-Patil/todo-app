@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            margin-top: 50px;
+            width: 420px;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #5a67d8;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f9f9f9;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .task-info {
+            text-align: left;
+        }
+
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+
+        .priority {
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 5px;
+            margin-left: 5px;
+        }
+
+        .high { background: #ff6b6b; color: white; }
+        .medium { background: #feca57; color: white; }
+        .low { background: #1dd1a1; color: white; }
+
+        .actions a {
+            margin-left: 10px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .toggle { color: green; }
+        .delete { color: red; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📝 To-Do App</h1>
+
+    <form method="POST" action="/add">
+        <input type="text" name="task" placeholder="Add a task..." required>
+
+        <select name="priority">
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+
+        <button type="submit">Add</button>
+    </form>
+
+    <ul>
+        {% for task in tasks %}
+        <li>
+            <div class="task-info {{ 'done' if task.status == 'Done' }}">
+                <strong>{{ task.task }}</strong>
+                <span class="priority {{ task.priority|lower }}">
+                    {{ task.priority }}
+                </span>
+                <div>{{ task.status }}</div>
+            </div>
+
+            <div class="actions">
+                <a href="/toggle/{{ loop.index0 }}" class="toggle">✔</a>
+                <a href="/delete/{{ loop.index0 }}" class="delete">✖</a>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+</body>
+</html>
